@@ -3,6 +3,14 @@
 <head>
   <meta charset="utf-8">
   <title>Carbon for F1TV</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+  <link rel="manifest" href="icons/site.webmanifest">
+  <link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="#7f0000">
+  <link rel="shortcut icon" href="icons/favicon.ico">
+  <meta name="msapplication-TileColor" content="#b10b38">
+  <meta name="msapplication-config" content="icons/browserconfig.xml">
   <meta name="theme-color" content="#aa0000">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -10,6 +18,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <style>
     body {
       background: linear-gradient(180deg, #000000, #470000);
@@ -38,6 +47,23 @@
       text-align: center;
       margin: auto;
     }
+
+    .carbon-btn-primary {
+      display: none;
+    }
+
+    .carbon-btns-secondary {
+      display: none;
+    }
+
+    .carbon-btn-secondary {
+      width: 190px;
+      margin: 0px;
+      background-color: #00000044 !important;
+      border-radius: 0px !important;
+      display: block;
+      margin: auto;
+    }
   </style>
 </head>
 
@@ -53,9 +79,41 @@
       </div>
       <div class="columns">
         <div class="column carbon-download">
-          <div class="buttons has-addons" style="justify-content: center;">
+          <div class="buttons has-addons" style="justify-content: center; margin-bottom: 0;">
+            <a href="https://chromewebstore.google.com/detail/carbon-for-f1tv/kbnlmjibehhjlncfbolkigkiihhlfmbd"
+              class="button is-large is-rounded carbon-btn-primary carbon-btn-primary-chrome"><span
+                class="icon is-small"><i class="fa fa-chrome"></i></span><span>Install for Chrome</span></a>
+            <a href="https://chromewebstore.google.com/detail/carbon-for-f1tv/kbnlmjibehhjlncfbolkigkiihhlfmbd"
+              class="button is-large is-rounded carbon-btn-primary carbon-btn-primary-edge"><span
+                class="icon is-small"><i class="fa fa-edge"></i></span><span>Install for Edge</span></a>
+            <a href="https://addons.mozilla.org/firefox/addon/carbon-for-f1tv/"
+              class="button is-large is-rounded carbon-btn-primary carbon-btn-primary-firefox"><span
+                class="icon is-small"><i class="fa fa-firefox"></i></span><span>Install for Firefox</span></a>
+            <a href="https://github.com/Carbon-for-F1TV/Carbon-for-F1TV?tab=readme-ov-file#userscript-alternative-method"
+              class="button is-large is-rounded carbon-btn-primary carbon-btn-primary-safari"><span
+                class="icon is-small"><i class="fa fa-safari"></i></span><span>Install for Safari</span></a>
             <a href="https://github.com/Carbon-for-F1TV/Carbon-for-F1TV?tab=readme-ov-file#installation"
-              class="button is-large is-rounded">Install Extension</a>
+              class="button is-large is-rounded carbon-btn-primary carbon-btn-primary-other"><span
+                class="icon is-small"><i class="fa fa-code"></i></span><span>Install Extension</span></a>
+            <button onclick="toggleSecondaryBtns();" class="button is-large is-rounded"><i
+                class="fa fa-angle-down"></i></button>
+          </div>
+          <div class="carbon-btns-secondary">
+            <a href="https://chromewebstore.google.com/detail/carbon-for-f1tv/kbnlmjibehhjlncfbolkigkiihhlfmbd"
+              class="button is-dark carbon-btn-secondary carbon-btn-secondary-chrome"><span class="icon is-small"><i
+                  class="fa fa-chrome"></i></span><span>Chrome</span></a>
+            <a href="https://chromewebstore.google.com/detail/carbon-for-f1tv/kbnlmjibehhjlncfbolkigkiihhlfmbd"
+              class="button is-dark carbon-btn-secondary carbon-btn-secondary-edge"><span class="icon is-small"><i
+                  class="fa fa-edge"></i></span><span>Edge</span></a>
+            <a href="https://addons.mozilla.org/firefox/addon/carbon-for-f1tv/"
+              class="button is-dark carbon-btn-secondary carbon-btn-secondary-firefox"><span class="icon is-small"><i
+                  class="fa fa-firefox"></i></span><span>Firefox</span></a>
+            <a href="https://github.com/Carbon-for-F1TV/Carbon-for-F1TV?tab=readme-ov-file#userscript-alternative-method"
+              class="button is-dark carbon-btn-secondary carbon-btn-secondary-safari"><span class="icon is-small"><i
+                  class="fa fa-safari"></i></span><span>Safari</span></a>
+            <a href="https://github.com/Carbon-for-F1TV/Carbon-for-F1TV?tab=readme-ov-file#userscript-alternative-method"
+              class="button is-dark carbon-btn-secondary carbon-btn-secondary-other"><span class="icon is-small"><i
+                  class="fa fa-code"></i></span><span>Other (userscript)</span></a>
           </div>
         </div>
       </div>
@@ -79,6 +137,54 @@
       </div>
   </section>
   <script>
+    function getBrowser() {
+      let userAgent = navigator.userAgent;
+      let browser = "Other";
+      if (/Edg/.test(userAgent)) {
+        browser = "Edge";
+      }
+      else if (/Chrome/.test(userAgent) && !/Chromium/.test(userAgent)) {
+        browser = "Chrome";
+      }
+      else if (/Firefox/.test(userAgent)) {
+        browser = "Firefox";
+      }
+      else if (/Safari/.test(userAgent)) {
+        browser = "Safari";
+      }
+      return browser;
+    }
+
+    function checkBrowser() {
+      let browser = getBrowser();
+      if (browser == "Chrome") {
+        $(".carbon-btn-primary-chrome").show();
+        $(".carbon-btn-secondary-chrome").hide();
+      } else if (browser == "Edge") {
+        $(".carbon-btn-primary-edge").show();
+        $(".carbon-btn-secondary-edge").hide();
+      } else if (browser == "Firefox") {
+        $(".carbon-btn-primary-firefox").show();
+        $(".carbon-btn-secondary-firefox").hide();
+      } else if (browser == "Safari") {
+        $(".carbon-btn-primary-safari").show();
+        $(".carbon-btn-secondary-safari").hide();
+      } else {
+        $(".carbon-btn-primary-other").show();
+        $(".carbon-btn-secondary-other").hide();
+      }
+      $(".carbon-btn-primary:hidden").remove();
+    }
+    checkBrowser();
+
+    function toggleSecondaryBtns() {
+      if ($(".carbon-btns-secondary").is(":hidden")) {
+        $(".carbon-btns-secondary").show();
+      } else {
+        $(".carbon-btns-secondary").hide();
+      }
+    }
+
   </script>
 </body>
 
